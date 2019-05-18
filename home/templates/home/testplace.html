@@ -1,0 +1,86 @@
+{% extends 'home/base.html' %}
+{% block content %}
+{% load static %}
+<div class="bg m-0 flex-grow-1"
+    style="col-auto; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({% static 'home/images/carousel-5.jpg' %});">
+    <br><br>
+    <div class="container h-100">
+        <h4 class="bg-primary px-4 text-center text-light rounded-top my-0"
+            style="padding-top: 12px; padding-bottom: 12px;">Browse Places</h4>
+
+        <!-- Search form -->
+        <div class="my-0 px-4" style="background-color: #eaeaea; padding-top: 10px; padding-bottom: 10px;">
+            <form class="form-inline mx-auto">
+                <div class="mx-auto">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search .." aria-label="Search"
+                        id="Search">
+                    <!-- Dropdown list -->&nbsp;
+                    <div class="btn-group mx-2">
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            {% if current_category %}
+                            {{ current_category.name }}
+                            {% else %}
+                            Category
+                            {% endif %}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'places-index' %}">All</a>
+                            {% for category in categories %}
+                            <a class="dropdown-item" href="?category={{ category.id }}">{{ category.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- places list -->
+        <div class="places-list p-4 bg-light rounded-bottom">
+            {% for place in places %}
+            <div class="place-row">
+                <div class="d-flex justify-content-center">
+                    <div class="align-self-center">
+                        <!-- preview image -->
+                        {% with place.image_set.all|first as preview %}
+                        <img src="{{ preview.image.url }}" class="img-thumbnail" width="150" height="75">
+                        {% endwith %}
+                    </div>
+                    <!-- place info -->
+                    <div class="flex-grow-1 px-4 d-flex flex-column align-items-center" style="max-width: 80%;">
+                        <!-- title -->
+                        <h5 class="mb-1 text-primary text-break">{{place.name}}</h5>
+
+                        <!-- rating -->
+                        <div class="mb-2">
+                            <img width="75" height="13.75"
+                                src="{% get_static_prefix %}home/images/rating_stars/{{ place.get_place_abs_rating }}_stars.png">
+                            <span class="mx-1 small">({{ place.review_set.count }})</span>
+                        </div>
+
+                        <!-- description -->
+                        <p class="text-truncate text-center mb-1 mw-100">{{place.description}}</p>
+
+                        <!-- posted by & date -->
+                        <p>
+                            by <span class="text-secondary mr-2">{{ place.posted_by.user.username }}</span>
+                            <span class="fa fa-calendar text-primary" aria-hidden="true"></span>
+                            <span>{{ place.post_date|date:'F d, Y \a\t g:i A' }}</span>
+                        </p>
+
+                        <!-- learn more -->
+                        <a href="{% url 'place-info' place_id=place.id %}?category={{ current_category.id }}&page={{ request.GET.page }}"
+                            class="btn btn-sm btn-danger">Learn more</a>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            {% endfor %}
+
+            <!-- Pages -->
+            {% include './pages_section.html' with pageObj=places %}
+        </div>
+    </div>
+    <br><br>
+</div>
+{% endblock %}

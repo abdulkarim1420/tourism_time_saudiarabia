@@ -1,0 +1,47 @@
+<div class="pagination d-flex justify-content-center mt-4">
+    <span class="step-links">
+        {% if pageObj.has_previous %}
+            <a href="?category={{ request.GET.category }}&page=1" class="btn btn-danger text-light">
+                <i class="fas fa-angle-double-left"></i>
+                first
+            </a>
+            <a href="?category={{ request.GET.category }}&page={{ pageObj.previous_page_number }}" class="btn btn-danger text-light">
+                <i class="fas fa-angle-left"></i>
+                prev
+            </a>
+        {% else %}
+            <a href="#" class="btn btn-danger text-light disabled">
+                <i class="fas fa-angle-double-left"></i>
+                first
+            </a>
+            <a href="#" class="btn btn-danger text-light disabled">
+                <i class="fas fa-angle-left"></i>
+                prev
+            </a>  
+        {% endif %}
+
+        <span class="current btn btn-outline-danger disabled">
+            Page {{ pageObj.number }} of {{ pageObj.paginator.num_pages }}
+        </span>
+
+        {% if pageObj.has_next %}
+            <a href="?category={{ request.GET.category }}&page={{ pageObj.next_page_number }}" class="btn btn-danger text-light">
+                next
+                <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="?category={{ request.GET.category }}&page={{ pageObj.paginator.num_pages }}" class="btn btn-danger text-light">
+                last
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+        {% else %}
+            <a href="#" class="btn btn-danger text-light disabled">
+                next
+                <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" class="btn btn-danger text-light disabled">
+                last
+                <i class="fas fa-angle-double-right"></i>
+            </a> 
+        {% endif %}
+    </span>
+</div>

@@ -1,0 +1,61 @@
+{% extends 'home/base.html' %}
+{% block content %}
+{% load static %}
+    <div class="bg flex-grow-1">
+        <div class="container h-100 text-light">
+            <br>
+            <div class="h-100 d-flex align-items-center justify-content-center">
+                <div class="card my-auto text-light" style="height: 360px; width: 700px;">
+                    <div class="card-header">
+                        <center>
+                            <h3>Edit Profile</h3>
+                        </center>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'profile-edit' user_id=user.id %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger"><i class="fas fa-id-card text-light"></i></span>
+                                </div>
+                                <input type="text" id="id_first_name" name="first_name" class="form-control" value="{{form.first_name.value}}" placeholder="First name">
+                            </div>
+
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger"><i class="fas fa-id-card text-light"></i></span>
+                                </div>
+                                <input type="text" id="id_last_name" name="last_name" class="form-control" value="{{form.last_name.value}}" placeholder="Last name">
+                            </div>
+                        
+                        
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger"><i class="fas fa-user text-light"></i></span>
+                                </div>
+                                <input type="text" id="id_username" name="username" class="form-control" value="{{form.username.value}}" placeholder="Username">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger">
+                                        <i class="fas fa-user-circle text-light"></i>
+                                    </span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" name="avatar" class="custom-file-input" id="place-images">
+                                    <label class="custom-file-label text-truncate" for="place-images">Upload new avatar .. (leave for current one)</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Update" class="btn float-right login_btn btn-outline-danger mt-2"
+                                    style="width: 100px;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+        </div>
+    </div>
+{% endblock %}

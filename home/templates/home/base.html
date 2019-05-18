@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="shortcut icon" href="">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href='{% static "home/css/custom.css" %}'>
+    <link rel="stylesheet" href='{% static "home/css/style.css" %}'>
+    <link rel="stylesheet" href='{% static "home/css/login.css" %}'>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+
+    {% if title %}
+        <title>Tourism Time - {{ title }}</title>
+    {% else %}
+        <title>Tourism Time</title>
+    {% endif %}
+</head>
+
+<body class="bg-light">
+		<style>
+		.btn-success {
+		  color: #fff;
+		  background-color: #28a745;
+		  border-radius: 35px;
+		  border: 1px solid rgba(21, 87, 36, 0.75);
+		}
+		.btn-danger {
+		  color: #fff;
+		  background-color: #dc3545;
+		  border-radius: 35px;
+		  border: 1px solid rgba(220, 53, 69, 0.75);      
+		}
+		.btn-outline-success {
+		  color: #28a745;
+		  background-color: transparent;
+		  background-image: none;
+		  border-radius: 35px;
+		  border: 1px solid rgba(40, 167, 69, 0.75);
+		  }
+		.btn-outline-danger {
+		  color: #dc3545;
+		  background-color: transparent;
+		  background-image: none;
+		  border-color: #dc3545;
+		  border-radius: 35px;
+		  border: 1px solid rgba(220, 53, 69, 0.75);     
+		}		  
+		</style>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand p-0" href="{% url 'home-index' %}">
+                <img src='{% static "home/images/brand.png" %}' width="60" height="60" class="d-inline-block mr-2"
+                    alt="">
+                <span style="color: #F4404E">Tourism Time</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+			<img src='{% static "home/images/2030.png" %}' width="80" height="55">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul id="main-nav" class="navbar-nav ml-auto">
+                    <li class="nav-item {{ home_page }}">
+                        <a class="nav-link" href="{% url 'home-index' %}">Home</a>
+                    </li>
+                    <li class="nav-item {{ browse_page }}">
+                        <a class="nav-link" href="{% url 'places-index' %}">Browse</a>
+                    </li>
+                    <li class="nav-item {{ contact_page }}">
+                        <a class="nav-link" href="{% url 'home-contact' %}">Contact</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown ml-4 {{ user_profile }}">
+                            <a class="nav-link dropdown-toggle text-capitalize" href="#" id="user-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="user-dropdown">
+                                <a class="dropdown-item" href="{% url 'places-new' %}">Add place</a>
+                                {% if user.is_staff %}
+                                    <a class="dropdown-item" href="{% url 'admin:index' %}" target="_blank">Manage website</a>
+                                {% endif %}
+                                <a class="dropdown-item" href="{% url 'profile-index' user_id=user.id %}">Profile</a>
+                                <a class="dropdown-item" href="{% url 'home-logout' %}">Logout</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item {{ login_page }}">
+                            <a class="nav-link" href="{% url 'home-login' %}">Login</a>
+                        </li>
+                        <li class="nav-item {{ register_page }}">
+                            <a class="nav-link" href="{% url 'home-register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="d-flex flex-column h-100">
+    <!-- Content -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+    
+
+    <footer class="bg-secondary page-footer font-small blue pt-0" style="color:black;">
+        <hr class="bg-danger mt-0 mb-4" style="height:5px;">
+        <div class="container">
+            <!-- Footer Links -->
+            <div class="container-fluid text-center text-md-left">
+
+                <!-- Grid row -->
+                <div class="row">
+
+                    <!-- Grid column -->
+                    <div class="col-md-6 mt-md-0 mt-3">
+
+                        <!-- Content -->
+                        <h5 class="text-uppercase">About us</h5>
+                        <p>We are Tourism Time here to help people explore our Kingdom of Saudi Arabia, helping them
+                            visit various amazing places to spend their time enjoying every moment in it.</p>
+
+                    </div>
+                    <!-- Grid column -->
+
+                    <hr class="clearfix w-100 d-md-none pb-3">
+
+                    <!-- Grid column -->
+                    <div class="col-md-3 mb-md-0 mb-3">
+
+                        <!-- Links -->
+                        <h5 class="text-uppercase">Pages</h5>
+
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{% url 'home-index' %}">Home</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'places-index' %}">Browse</a>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'profile-index' user_id=user.id %}">Profile</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'home-logout' %}">Logout</a>
+                            </li>
+                            {% else %}
+                            <li>
+                                <a href="{% url 'home-login' %}">Login</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'home-register' %}">Register</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-3 mb-md-0 mb-3">
+
+                        <!-- Links -->
+                        <h5 class="text-uppercase">Links</h5>
+
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{% url 'places-new' %}">Add Place</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'home-contact' %}">Contact us</a>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'admin:index' %}" target="_blank">Manage website</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+
+                    </div>
+                    <!-- Grid column -->
+
+                </div>
+                <!-- Grid row -->
+
+            </div>
+            <!-- Social Media Links -->
+            <div class="text-center" style="size: 2x;">
+				<a href="#!"><i class="fab fa-twitter fa-2x mx-1" style="color: #00ACEE"></i></a>
+                <a href="#!"><i class="fab fa-instagram fa-2x mx-1" style="color: #DD2A7B"></i></a>
+				<a href="#!"><i class="fab fa-snapchat-square fa-2x mx-1" style="color: #FFFC00"></i></a>
+            </div>
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© 2019 Copyright
+                <a href="#"> Tourism Time</a>
+            </div>
+            <!-- Copyright -->
+
+
+
+        </div>
+    </footer>
+    </div>
+    <!-- Footer -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!-- RateYo Plugin -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+    
+    <script src="{% static 'home/js/script.js' %}"></script>
+</body>
+
+</html>

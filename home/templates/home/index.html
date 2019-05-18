@@ -1,0 +1,80 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+{% load static %}
+<!-- Banner -->
+<div id="banner" class="jumbotron bg-dark text-light mb-0 bg-transparent">
+    <div class="container">
+        <h1 class="display-4">Welcome to Tourism Time</h1>
+        <p class="lead">This is a website that helps you find places you can enjoy here in Saudi Arabia.</p>
+        <hr class="my-4 bg-light">
+        <p>Start searching now for amazing places that you can spend time there, Have fun!</p>
+        <a class="btn btn-outline-danger btn-lg" href="{% url 'places-index' %}" role="button">Browse places</a>
+    </div>
+</div>
+
+<div class="">
+        <hr class="bg-danger my-0" style="height: 5px;">
+    <div class="flex-grow-1" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({% static 'home/images/carousel-6.jpg' %}); background-repeat: no-repeat; background-size: cover;">
+        <br><div class="container">
+				<div class="d-flex justify-content-between">
+<!-- Categories list -->
+			<ul class="list-group" style="width: 300px;">
+			<li class="list-group-item justify-content-between align-items-center bg-danger text-white"><i class="fas fa-th text-light"></i> 
+				Categories
+			  </li>
+			{% for category in categories %}
+			  <li class="list-group-item d-flex justify-content-between text-primary align-items-center">
+				<a href="{% url 'places-index' %}?category={{ category.id }}">{{ category.name }}</a>
+				<span class="badge badge-danger badge-pill bg-danger">{{ category.place_set.count }}</span>
+			  </li>
+			{% endfor %}
+			</ul><br>
+<!-- Last Places added -->		
+			<div class="list-group" style="width: 795px;">
+
+					<li class="list-group-item justify-content-between align-items-center bg-danger text-white text-center"><i class="far fa-building text-light"></i> 
+					 Most Recent
+				  </li>	
+			  {% for place in most_recent %}
+			  <a href="{% url 'place-info' place_id=place.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+				<div class="d-flex w-100 justify-content-between">
+				  <h5 class="mb-1 text-primary mb-2">{{ place.name|capfirst }}</h5>
+				  <small>{{ place.post_date|date:'F d, Y \a\t g:i A' }}</small>
+				</div>
+				<p class="mb-1">{{place.description}}</p>
+				<small class="text-secondary">{{place.posted_by}}</small>
+			  </a>
+			  {% endfor %}
+			</div>
+		</div><br>		
+<!-- Most Rated list -->
+		<div>
+				<div class="card-header justify-content-between align-items-center bg-danger text-white text-center"><i class="fas fa-fire text-light"></i>
+				Most Popular
+				</div> 
+				 <span class="header-line gradient-color-1"></span>
+			<div class="card-group text-white">
+				{% for place in most_popular %}
+			  <div class="card border-danger">
+				{% with place.image_set.all|first as preview %}
+				<img class="card-img-top flex-grow-1" src="{{ preview.image.url }}">
+				{% endwith %}
+				<div class="card-body text-danger">
+				  <h5 class="card-title"><a class="text-danger" href="{% url 'place-info' place_id=place.id %}">{{ place.name|capfirst }}</a></h5>
+				  <!-- <p class="card-text text-truncate">Views: {{ place.views }}</p> -->
+				  <!-- <p class="card-text"><small class="text-muted">{{ place.category|capfirst }}</small></p> -->
+				</div>
+
+				  <div class="card-footer">
+				  	<small class="text-light">Views: {{ place.views }}</small>
+				  	<br>
+      				<small class="text-light">{{place.category|capfirst}}</small>
+    			  </div>
+			  </div>
+				{% endfor %}
+			</div><br>	
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'home/base.html' %}
+{% block content %}
+{% load static %}
+<div class="flex-grow-1" id="login" style="height: 680px;">
+    <div class="container h-100">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="card my-auto text-light" style="height: auto; width: 850px;">
+                <div class="card-header">
+                    <center>
+                        <h3>Add New Place</h3>
+                    </center>
+                </div>
+				<!-- Message success -->
+				{% if messages %}
+				<div class="alert alert-success col-10 col align-self-center">
+					{% for message in messages %}
+					<li{% if message.tags %} class="{{ message.tags }}"{% endif %}><strong>Success! </strong>{{ message }} <a href="{% url 'places-index' %}" class="alert-link">Browse Places</a></li>
+					{% endfor %}
+				</div>
+				{% endif %}
+                <div class="card-body">
+                    <form action="{% url 'places-new' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- This hidden input used to set the posted_by field value to the current user id -->
+                        <input type="hidden" id="id_posted_by" name="posted_by" value="{{ profile.id }}">
+
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-danger"><i
+                                        class="fas fa-building text-light"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="id_name" name="name" required placeholder="Place Name">
+                        </div>
+
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-danger"><i
+                                        class="fas fa-building text-light"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="id_map_id" name="map_id" required placeholder="Google's Place ID">
+                            
+                        </div>                        
+                        <small class="form-text mb-2">
+                                Go to this <a href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder" target="_blank" class="text-secondary">link</a>, 
+                                then type a location name on the map and copy <b>Place ID</b>. (picking directly doesn't work)
+                        </small>
+
+                        <div class="row">
+                            <div class="col-md-6 input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger"><i class="fas fa-flag text-light"></i></span>
+                                </div>
+                                <select class="form-control" id="id_town" name="town" required>
+                                    <option value="">Select Town</option>
+                                    {% for option in form.fields.town.queryset %}‎
+                                        <option value="{{ option.id }}">{{ option.name|capfirst }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger">
+                                        <i class="fas fa-th text-light"></i>
+                                    </span>
+                                </div>
+                                <select class="form-control" id="id_category" name="category" required>
+                                    <option value="">Select Category</option>
+                                    {% for option in form.fields.category.queryset %}‎
+                                        <option value="{{ option.id }}">{{ option.name|capfirst }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger"><i class="fas fa-phone text-light"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="id_phone_number" name="phone_number" required placeholder="Phone Number">
+                            </div>
+                            <div class="col-md-6 input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger"><i class="fab fa-edge text-light"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="id_website" name="website" placeholder="Website  (Optional)">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger"><i class="fas fa-clock text-light"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="id_opening_hours" name="opening_hours" placeholder="Opening Hours (Optional)">
+                            </div>
+
+                            <div class="col-md-6 input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-danger">
+                                        <i class="far fa-images text-light"></i>
+                                    </span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" name="files" class="custom-file-input" id="place-images" multiple required>
+                                    <label class="custom-file-label text-truncate" for="place-images">Select Images ..</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_description">Description</label>
+                            <textarea class="form-control" style="font-size: 14px;" id="id_description" name="description" placeholder="Describe the place please.." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Send!" class="btn float-right login_btn btn-outline-danger"
+                                style="width: 100px;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

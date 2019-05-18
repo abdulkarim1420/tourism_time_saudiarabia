@@ -1,0 +1,65 @@
+html, body {
+    margin: 0 !important;
+    height: 100% !important;
+}
+
+#banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/banner.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 0;
+}
+
+nav {
+    background-color: rgba(31, 31, 31, 1);
+    border-bottom: 5px solid #F4404E;
+}
+
+#main-nav .nav-item .nav-link {
+    padding: 10px;
+    color: white;
+}
+
+#main-nav .active > .nav-link {
+    color: #F4404E;
+    border-bottom: 1px solid #F4404E;
+}
+
+#main-nav .nav-link:hover {
+    color: #F4404E;
+}
+
+/* Place Details */
+.place-info {
+    height: auto;
+    background-color: rgba(85, 85, 85, 0.6);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#images-section > ul > li {
+    cursor: pointer;
+}
+
+.active-image {
+    border: 2px solid #911313
+}
+
+.nav-tabs .nav-link { color: white; }
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link { color:  #F4404E;}
+
+/* Comment Section */
+.comment {
+    /* background-color: rgba(85, 85, 85, 0.6); */
+    padding: 7.5px 15px;
+    border-radius: 5px;
+}
+
+.avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+

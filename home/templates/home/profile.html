@@ -1,0 +1,91 @@
+{% extends 'home/base.html' %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+    <div class="bg flex-grow-1">
+        <div class="container text-light">
+            <br>
+            <div class="content p-4">
+
+
+                <!-- Message success -->
+                {% if messages %}
+                <div class="alert alert-success col-12 col align-self-center">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <!-- post profile content here -->
+                <!-- <h2>Profile content here</h2> -->
+                <div class="bg-light text-dark p-4 rounded">
+                    <div class="d-flex justify-content-center">
+                        <img class="avatar" src="{{profile.user.profile.avatar.url}}" style="width: 115px!important; height: 115px!important;" alt="avatar">
+                        <div class="d-flex flex-column ml-4 justify-content-center">
+                            <h5>{{profile.user.username}}</h5>
+                            <h5>{{profile.user.first_name|capfirst}} {{profile.user.last_name|capfirst}}</h5>
+                            <h5>{{profile.user.email}}</h5>
+                        </div>
+                    </div>
+                    {% if request.user == profile.user %}
+                    <center>
+                        <a href="edit/" class="btn btn-outline-danger mt-4">Edit Profile</a>
+                    </center>
+                    {% endif %}
+                    <hr>
+
+                    <div class="d-flex justify-content-center">
+                        
+                        <div class="d-flex flex-column align-items-center mr-4">
+                            <p class="my-0">{{ profile.user.date_joined|date:'F d, Y' }}</p>
+                            <small class="text-primary">Date Joined</small>
+                        </div>
+                        <div class="d-flex flex-column align-items-center ml-4 mr-4">
+                            <p class="my-0">{{ profile.user.profile.last_seen|naturaltime }}</p>
+                            <small class="text-primary">Last Seen</small>
+                        </div>
+                        
+
+                        <div class="d-flex flex-column align-items-center ml-4 mr-4">
+                            <p class="my-0">{{ profile.user.profile.place_set.count }}</p>
+                            <small class="text-primary">Places</small>
+                        </div>
+                        <div class="d-flex flex-column align-items-center ml-4">
+                            <p class="my-0">{{ profile.user.profile.review_set.count }}</p>
+                            <small class="text-primary">Reviews</small>
+                        </div>
+                    
+                    </div>
+                </div>
+
+                <!-- User's Places -->
+                <div class="bg-light my-4 p-4 rounded text-dark">
+                    <h4 class="text-primary">Added Places</h4>
+                    {% for place in user.profile.place_set.all %}
+                    <hr>
+                    <div class="d-flex bg-light justify-content-between align-items-center">
+                        <p class="my-0">{{place.name|capfirst}}</p>
+                        <a class="btn btn-outline-danger" href="{% url 'place-info' place_id=place.id %}">Learn more</a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Favoured Places -->
+                <div class="bg-light my-4 p-4 rounded text-dark">
+                    <h4 class="text-primary">Favoured Places</h4>
+                    {% for place in user.profile.favorites.all %}
+                    <hr>
+                    <div class="d-flex bg-light align-items-center">
+                        <p class="my-0 mr-auto">{{place.name|capfirst}}</p>
+                        <a class="btn btn-danger mr-2" href="{% url 'place-unfavorite' place_id=place.id %}?next={% url 'profile-index' user_id=user.id %}">
+                            <i class="fas fa-trash-alt"></i>
+                            &nbsp;Remove
+                        </a>
+                        <a class="btn btn-outline-danger" href="{% url 'place-info' place_id=place.id %}">Learn more</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
